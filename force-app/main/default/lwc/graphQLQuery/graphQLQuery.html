@@ -1,0 +1,43 @@
+<template>
+    <lightning-card title="GraphQL Contacts">
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+        </template>
+        <div class="slds-m-around_medium">
+            <lightning-input
+                label="Search Contacts"
+                value={searchValue}
+                onchange={handleChange}
+                placeholder="Enter contact name..."
+            ></lightning-input>
+
+            <template if:true={dataList}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={dataList}
+                    columns={columnsList}
+                    hide-checkbox-column="true"
+                ></lightning-datatable>
+                <p class="slds-text-align_center" style="color: lightblue;">
+                    showing {pageNumber} of {totalPages} from total records {totalCount}
+                </p>
+
+                <div class="slds-m-top_medium slds-align_absolute-center">
+                    <lightning-button
+                        label="Reset"
+                        onclick={handleReset}
+                    ></lightning-button>
+                    <lightning-button
+                        label="Next"
+                        onclick={handleNext}
+                        disabled={DisableNext}
+                    ></lightning-button>
+                </div>
+            </template>
+
+            <template if:true={errors}>
+                <p class="slds-text-color_error">Error: {errors}</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>

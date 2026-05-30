@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cannot_Edit_Purchase_Date_Field</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    ISPICKVAL( Shirt__c , &quot;Vanilla&quot;),
+    ISCHANGED( Purchase_Date__c ),
+    NOT( is_shirt_editable__c )
+)</errorConditionFormula>
+    <errorMessage>You cannot Change purcahse date if shirt is vanilla, please submit for approval for changing the date</errorMessage>
+</ValidationRule>

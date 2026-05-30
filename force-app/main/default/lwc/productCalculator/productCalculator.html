@@ -1,0 +1,20 @@
+<template>
+    <lightning-card title="Product Calculator" icon-name="standard:product">
+        <lightning-button
+          slot="actions" 
+          variant="neutral"
+          label="+1 Quantity" 
+          onclick={handleClick} 
+        ></lightning-button>
+        <div class="slds-m-around_medium">
+            <div>
+                Price:{price}<br/>
+                Quantity:{quantity}<br/>
+                Tax Rate:{taxRate}<br/>
+                Sub Total:{subTotal}<br/>
+                Tax:{tax}<br/>
+                Total:{formattedTotal}<br/>
+            </div>
+        </div>
+    </lightning-card>
+</template>

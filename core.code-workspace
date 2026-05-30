@@ -1,0 +1,19 @@
+{
+  "folders": [
+    {
+      "path": "c:/Users/aphadke/OneDrive - BMC Software, Inc/myPracticeOrg"
+    }
+  ],
+  "settings": {
+    "eslint.workingDirectories": [
+      "c:/Users/aphadke/OneDrive - BMC Software, Inc/myPracticeOrg"
+    ],
+    "eslint.validate": [
+      "javascript",
+      "typescript"
+    ],
+    "eslint.options": {
+      "overrideConfigFile": "c:\\Users\\aphadke\\OneDrive - BMC Software, Inc\\myPracticeOrg\\.eslintrc.json"
+    }
+  }
+}

@@ -7,13 +7,12 @@
 
 //AccountUtility.createAccount('New Test Account Created From Integration Oauth 2.0 PKCE Flow','Hot');
 //QB_Customers.testCreateCustomer();
+String loggedInUserInfo ='/services/oauth2/userinfo';
 HttpRequest req = new HttpRequest();
-req.setEndpoint('callout:OpenCage/json?q=52.5432379%2C+13.4142133&key=22405b5b97dc4263829408528a118ef7');
-req.setHeader('Content-Type','application/json');
-req.setHeader('Accept','application/json');
+req.setEndpoint('callout:JWTSF'+loggedInUserInfo);
 req.setMethod('GET');
-
-Http http = new Http();
-HttpResponse res = http.send(req);
-System.debug('Body'+res.getBody());
-System.debug('Body'+res.getStatusCode());
+req.setHeader('Content-Type', 'application/json');
+req.setHeader('Accept', 'application/json');
+HTTPResponse res = (new Http()).send(req);
+System.debug(res.getstatuscode());
+System.debug(res.getBody());

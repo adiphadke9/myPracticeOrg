@@ -5,14 +5,7 @@
 // You can also execute the entire file by running the command:
 //     SFDX: Execute Anonymous Apex with Editor Contents
 
-//AccountUtility.createAccount('New Test Account Created From Integration Oauth 2.0 PKCE Flow','Hot');
-//QB_Customers.testCreateCustomer();
-String loggedInUserInfo ='/services/oauth2/userinfo';
-HttpRequest req = new HttpRequest();
-req.setEndpoint('callout:JWTSF'+loggedInUserInfo);
-req.setMethod('GET');
-req.setHeader('Content-Type', 'application/json');
-req.setHeader('Accept', 'application/json');
-HTTPResponse res = (new Http()).send(req);
-System.debug(res.getstatuscode());
-System.debug(res.getBody());
+OrderStatus__e os = new OrderStatus__e();
+os.Order_Number__c = 'ORD-12345';
+os.Total_Amount_in_USD__c = 9876.1233;
+EventBus.publish(os);

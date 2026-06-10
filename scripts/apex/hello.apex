@@ -5,7 +5,9 @@
 // You can also execute the entire file by running the command:
 //     SFDX: Execute Anonymous Apex with Editor Contents
 
-OrderStatus__e os = new OrderStatus__e();
-os.Order_Number__c = 'ORD-12345';
-os.Total_Amount_in_USD__c = 9876.1233;
-EventBus.publish(os);
+SAP_Account__e event = (SAP_Account__e) SAP_Account__e.sObjectType.newSObject(null, true);
+System.debug('EventUUID'+event.EventUuid);
+event.AccountId__c = '001Ie000009aWH2IAM';
+event.AccountNumber__c = '2123232';
+event.Name__c = 'Test Account for Debug log';
+EventBus.publish(event);

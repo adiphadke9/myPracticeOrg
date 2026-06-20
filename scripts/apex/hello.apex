@@ -10,5 +10,5 @@ System.debug('EventUUID'+event.EventUuid);
 event.AccountId__c = '001Ie000009aWH2IAM';
 event.AccountNumber__c = '2123232';
 event.Name__c = 'Test Account for Debug log';
-EventBus.publish(event, new PE_SuccessHandler());*/
+EventBus.publish(event);*/
 Database.executeBatch(new AccountBatchHandler());

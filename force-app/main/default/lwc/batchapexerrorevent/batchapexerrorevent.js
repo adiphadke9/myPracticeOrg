@@ -4,7 +4,8 @@ import { subscribe, unsubscribe, onError} from "lightning/empApi";
 export default class Batchapexerrorevent extends LightningElement {
     
     subscription;
-    eventName='/event/BatchApexErrorEvent';
+    eventName='/event/SAP_Account__e';
+    eventMessage='';
     connectedCallback(){
         this.registerErrorHandler();
         this.handleSubscribe();
@@ -27,10 +28,12 @@ export default class Batchapexerrorevent extends LightningElement {
     }
 
     handleSubscribe(){
-        this.subscription = subscribe(this.eventName,-2, (message)=>{
-            console.log('Event Subscription');
-            console.log(JSON.stringify(message));
-        });
+        this.subscription = subscribe(this.eventName,-2, this.handleSuccessErrorMessage.bind(this));
         console.log(this.subscription);
+    }
+
+    handleSuccessErrorMessage(message){
+        console.log("Message Received");
+        this.eventMessage = JSON.stringify(message);
     }
 }

@@ -5,10 +5,10 @@
 // You can also execute the entire file by running the command:
 //     SFDX: Execute Anonymous Apex with Editor Contents
 
-/*SAP_Account__e event = (SAP_Account__e) SAP_Account__e.sObjectType.newSObject(null, true);
+SAP_Account__e event = (SAP_Account__e) SAP_Account__e.sObjectType.newSObject(null, true);
 System.debug('EventUUID'+event.EventUuid);
 event.AccountId__c = '001Ie000009aWH2IAM';
 event.AccountNumber__c = '2123232';
 event.Name__c = 'Test Account for Debug log';
-EventBus.publish(event);*/
-Database.executeBatch(new AccountBatchHandler());
+EventBus.publish(event);
+//Database.executeBatch(new AccountBatchHandler());

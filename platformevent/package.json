@@ -1,0 +1,16 @@
+{
+  "name": "platformeventstreaming-api",
+  "version": "1.0.0",
+  "description": "This is test project",
+  "license": "ISC",
+  "author": "Aditya Phadke",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "test app.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "jsforce": "^3.10.16"
+  }
+}

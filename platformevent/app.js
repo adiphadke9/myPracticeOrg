@@ -47,6 +47,11 @@ app.get('/oauth2/callback', async (req, res) => {
     });
     res.send('✅ Authorization successful! You can close this page.');
 
+    const dataCaptureName = '/data/ContactChangeEvent';
+        const subscriptionCDCContact = conn.streaming.topic(dataCaptureName).subscribe(function(payload){
+        console.log('CDC Received message:\n',JSON.stringify(payload,null,2));
+    });
+
   } catch (err) {
     console.error('❌ Auth Error:', err);
 

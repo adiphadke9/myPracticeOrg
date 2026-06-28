@@ -7,8 +7,8 @@ const port = 3000;
 // OAuth2 configuration
 const oauth2 = new jsforce.OAuth2({
   loginUrl: 'https://login.salesforce.com', // use test.salesforce.com for sandbox
-  clientId: '3MVG9d8..z.hDcPI6j9v6W2pX0AnAqkzZOTQ19HTYF8mSwXXEPj41dDYSCPC0Skr8hcPZEDXUcVLJo32WH.JQ',
-  clientSecret: '25FCBDDCEC65A1BA9783284AE12C789C64C5DA512A5E3DF9D868071DF98C0616',
+  clientId: 'SF_clientID',
+  clientSecret: 'SF_client secret',
   redirectUri: 'http://localhost:3000/oauth2/callback'
 });
 

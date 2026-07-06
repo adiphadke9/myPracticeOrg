@@ -21,4 +21,14 @@ public with sharing class MetadataUtils {
         List<MetadataService.FileProperties> properties = service.listMetadata(queries, 60);
         System.debug(System.JSON.serializePretty(properties));
     }
+
+    public static void readMetadata(){
+        MetadataService.MetadataPort service = createService();
+        List<String> itemList = new String[]{'Admin'};
+        MetadataService.Profile profiledetails = (MetadataService.Profile) service.readMetadata('Profile', itemList).getRecords()[0];
+        MetadataService.ProfileLoginHours loginhours = profiledetails.loginHours;
+        MetadataService.ProfileLoginIpRange[] loginIpRanges = profiledetails.loginIpRanges;
+        System.debug('loginhours \n'+ loginhours);
+        System.debug('loginIpRanges \n'+ loginIpRanges);
+    }
 }

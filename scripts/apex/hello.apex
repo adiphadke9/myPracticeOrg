@@ -12,4 +12,5 @@ event.AccountNumber__c = '2123232';
 event.Name__c = 'Test Account for Debug log';
 EventBus.publish(event);*/
 //Database.executeBatch(new AccountBatchHandler());
-OpportunityBulkCreator.createOpportunities(120);
+//OpportunityBulkCreator.createOpportunities(120);
+MetadataUtils.listmetadata();

@@ -44,5 +44,6 @@
   },
   "xml.preferences.showSchemaDocumentationType": "none",
   "salesforcedx-vscode-apex.java.home": "C:\\Program Files\\Zulu\\zulu-17",
-  "salesforce.einsteinForDevelopers.enableAutoUpdateSkills": true
+  "salesforce.einsteinForDevelopers.enableAutoUpdateSkills": true,
+  "salesforce.agentforceVibesAutocomplete.enableAutocompletionsSleepModeMonitoring": true
 }

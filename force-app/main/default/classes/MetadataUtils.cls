@@ -31,4 +31,29 @@ public with sharing class MetadataUtils {
         System.debug('loginhours \n'+ loginhours);
         System.debug('loginIpRanges \n'+ loginIpRanges);
     }
+
+    public static void createObject(){
+        MetadataService.MetadataPort service = createService();
+        MetadataService.CustomObject customobject = new MetadataService.CustomObject();
+        MetadataService.CustomField namefield = new MetadataService.CustomField();
+        customobject.label = 'Stripe Invoice';
+        customobject.pluralLabel = 'Stripe Invoices';
+        customobject.fullName = 'StripeInvoice__c';
+        customobject.enableHistory = true;
+        customobject.enableActivities = true;
+        customobject.enableSearch = true;
+        customobject.enableReports = true;
+
+        namefield.type_x = 'Text';
+        namefield.label = 'Stripe Invoice Id';
+        customobject.deploymentStatus = 'Deployed';
+        customobject.sharingModel = 'ReadWrite';
+        customobject.nameField = namefield;
+
+        List<MetadataService.Metadata> customObjectList = new List<MetadataService.Metadata>();
+        customObjectList.add(customobject);
+
+        List<MetadataService.SaveResult> saveResult = service.createMetadata(customObjectList);
+        System.debug(System.JSON.serializePretty(saveResult));
+    }
 }

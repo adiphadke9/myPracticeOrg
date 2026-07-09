@@ -56,4 +56,43 @@ public with sharing class MetadataUtils {
         List<MetadataService.SaveResult> saveResult = service.createMetadata(customObjectList);
         System.debug(System.JSON.serializePretty(saveResult));
     }
+
+    public static void createFields(){
+        MetadataService.MetadataPort service = createService();
+        MetadataService.CustomField customField = new MetadataService.CustomField();
+        customField.fullName = 'StripeInvoice__c.StripeUUID__c';
+        customField.label = 'StripeUUID';
+        customField.type_x = 'Text';
+        customField.description = 'This is the field created from Custom Metadata API';
+        customField.inlineHelpText = 'This is the field created from Custom Metadata API';
+        customField.length = 120;
+        customField.required = false;
+        customField.unique = false;
+        customField.externalId = true;
+        customField.caseSensitive = false;
+
+        List<MetadataService.Metadata> customFieldList = new List<MetadataService.Metadata>();
+        customFieldList.add(customField);
+        List<MetadataService.SaveResult> saveResult = service.createMetadata(customFieldList);
+        System.debug(System.JSON.serializePretty(saveResult));
+    }
+
+    public static void createLookupFields(){
+        MetadataService.MetadataPort service = createService();
+        MetadataService.CustomField customField = new MetadataService.CustomField();
+        customField.fullName = 'StripeInvoice__c.StripeCustomer__c';
+        customField.label = 'Stripe Customer';
+        customField.type_x = 'Lookup';
+        customField.description = 'This is the Lookup field created from Custom Metadata API';
+        customField.inlineHelpText = 'This is the Lookup field created from Custom Metadata API';
+        customField.referenceTo =
+        customField.relationshipLabel = 'Stripe Invoices';
+        customField.relationshipName = 'StripeInvoices';
+        customField.referenceTo = 'Account';
+
+        List<MetadataService.Metadata> customFieldList = new List<MetadataService.Metadata>();
+        customFieldList.add(customField);
+        List<MetadataService.SaveResult> saveResult = service.createMetadata(customFieldList);
+        System.debug(System.JSON.serializePretty(saveResult));
+    }
 }

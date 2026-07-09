@@ -13,4 +13,4 @@ event.Name__c = 'Test Account for Debug log';
 EventBus.publish(event);*/
 //Database.executeBatch(new AccountBatchHandler());
 //OpportunityBulkCreator.createOpportunities(120);
-MetadataUtils.createObject();
+MetadataUtils.createLookupFields();

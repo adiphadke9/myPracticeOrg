@@ -13,4 +13,12 @@ event.Name__c = 'Test Account for Debug log';
 EventBus.publish(event);*/
 //Database.executeBatch(new AccountBatchHandler());
 //OpportunityBulkCreator.createOpportunities(120);
-MetadataUtils.createLookupFields();
+//MetadataUtils.createLookupFields();
+List<String> options = new List<String> {
+    'Open',
+    'Closed',
+    'Paid',
+    'Voided',
+    'Part-Paid'
+};
+MetadataUtils.createPicklistField(options);

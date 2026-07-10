@@ -95,4 +95,39 @@ public with sharing class MetadataUtils {
         List<MetadataService.SaveResult> saveResult = service.createMetadata(customFieldList);
         System.debug(System.JSON.serializePretty(saveResult));
     }
+
+    public static void createPicklistField(List<String> options){
+        
+        MetadataService.MetadataPort service 	= createService();
+        MetadataService.CustomField customField = new MetadataService.CustomField();
+        customField.fullName 		= 'StripeInvoice__c.InvoiceStatus__c';
+        customField.label 			= 'Invoice Status';
+        customField.type_x 			= 'Picklist';
+        customField.description 	= 'This is the picklist field created from Custom Metadata while recording UDEMY INTEGRATION';
+        customField.inlineHelpText	= 'This is the picklist field created from Custom Metadata while recording UDEMY INTEGRATION';
+        
+        MetadataService.ValueSet valueSetDef 		 = new MetadataService.ValueSet();
+        
+        MetadataService.ValueSetValuesDefinition valueDefinition = new MetadataService.ValueSetValuesDefinition();
+        
+        List<MetadataService.CustomValue> values 	 = new List<MetadataService.CustomValue>();        
+        for(String value : options){
+            MetadataService.CustomValue customValue = new MetadataService.CustomValue();
+            customValue.fullName  = value; 
+            customValue.default_x = false;
+            customValue.isActive  = true;
+            customValue.label     = value;
+            values.add(customValue);
+        }
+        valueDefinition.value  			= values;
+        valueDefinition.sorted 			= true;
+        
+        valueSetDef.valueSetDefinition  = valueDefinition;
+        valueSetDef.restricted			= true;
+        
+        customField.valueSet 		    = valueSetDef;
+        customField.required			= true;
+        List<MetadataService.SaveResult> results = service.createMetadata( new MetadataService.Metadata[] { customField } );
+        System.debug(System.JSON.serializePretty(results));
+    }
 }

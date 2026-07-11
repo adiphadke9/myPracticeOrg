@@ -15,10 +15,6 @@ EventBus.publish(event);*/
 //OpportunityBulkCreator.createOpportunities(120);
 //MetadataUtils.createLookupFields();
 List<String> options = new List<String> {
-    'Open',
-    'Closed',
-    'Paid',
-    'Voided',
-    'Part-Paid'
+    'Subject'
 };
-MetadataUtils.createPicklistField(options);
+MetadataUtils.deleteMetadataRecords('ChildFieldDetails', options);

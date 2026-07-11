@@ -2,7 +2,7 @@ public with sharing class MetadataUtils {
     public static MetadataService.MetadataPort createService(){
         MetadataService.MetadataPort service = new MetadataService.MetadataPort();
         service.SessionHeader = new MetadataService.SessionHeader_element();
-        service.SessionHeader.sessionId = UserInfo.getSessionId();
+        service.SessionHeader.sessionId = getSessionId();
         return service;
     }
 
@@ -129,5 +129,25 @@ public with sharing class MetadataUtils {
         customField.required			= true;
         List<MetadataService.SaveResult> results = service.createMetadata( new MetadataService.Metadata[] { customField } );
         System.debug(System.JSON.serializePretty(results));
+    }
+
+    public static void deleteMetadataRecords(String metadataType,List<String> names){
+        MetadataService.MetadataPort service = createService();
+        List<String>recordsToDelete = new List<String>();
+        for(String name : names){
+            recordsToDelete.add(metadataType+'.'+name);
+        }
+        List<MetadataService.DeleteResult> deleteResults = service.deleteMetadata('CustomMetadata', recordsToDelete);
+        System.debug(System.JSON.serializePretty(deleteResults));
+    }
+
+    public static String getSessionId(){
+        String sessionId = '';
+        PageReference sessionPage = Page.SessionId;
+        String vfContent = sessionPage.getContent().toString();
+        Integer startP = vfContent.indexOf('Start_of_Session_Id') + 'Start_of_Session_Id'.length();
+        Integer endP = vfContent.indexOf('End_of_Session_Id');
+        sessionId = vfContent.substring(startP, endP);
+        return sessionId;
     }
 }

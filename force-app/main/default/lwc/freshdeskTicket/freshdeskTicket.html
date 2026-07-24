@@ -1,0 +1,51 @@
+<template>
+    <lightning-card title="Create Freshdesk Ticket" icon-name="standard:case">
+        <div class="slds-p-around_medium">
+            <lightning-input type="text" name= "ContactName" label="Contact Name" variant="standard" required onchange={handleInputChange}></lightning-input>
+            <lightning-input type="email" name= "Contactemail" label="Contact Email" variant="standard"  required onchange={handleInputChange}></lightning-input>
+            <lightning-input type="text" name="Subject" label="Subject" variant="standard" required onchange={handleInputChange}></lightning-input>
+            <lightning-textarea name="Description" label="Description" variant="standard" required onchange={handleInputChange}></lightning-textarea>
+            <lightning-combobox
+              name="Typex"
+              label="Type"
+              placeholder="Select Type"
+              options={typeoptions}
+              required
+              onchange={handleInputChange}
+            ></lightning-combobox>
+            <lightning-combobox
+              name="Status"
+              label="Status"
+              placeholder="Select Status"
+              options={statusoptions}
+              required
+              onchange={handleInputChange}
+            ></lightning-combobox>
+            <lightning-combobox
+              name="Priority"
+              label="Priority"
+              placeholder="Select Priority"
+              options={priorityoptions}
+              required
+              onchange={handleInputChange}
+            ></lightning-combobox>
+            <lightning-combobox
+              name="Source"
+              label="Source"
+              placeholder="Select Source"
+              options={sourceoptions}
+              required
+              onchange={handleInputChange}
+            ></lightning-combobox>
+        </div>
+         <div class="slds-p-around_medium">
+            <lightning-button 
+              variant="brand"
+              label="Create Case" 
+              title="Create Case"
+              onclick={handleClick} 
+              onchange={handleInputChange}
+            ></lightning-button>
+         </div>
+    </lightning-card>
+</template>

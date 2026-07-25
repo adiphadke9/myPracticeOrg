@@ -1,7 +1,9 @@
 import { LightningElement } from 'lwc';
 import createTicket from '@salesforce/apex/FreshDeskTicketController.createTicket';
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 export default class FreshdeskTicket extends LightningElement {
+    isLoading = false;
     ticketInformation = {
         "status":'2'
     };
@@ -52,17 +54,42 @@ export default class FreshdeskTicket extends LightningElement {
 
         // 3. Process form data if everything passes
         if (allValid) {
+            this.isLoading = true;
             console.log('All fields are valid. Ready to submit!');
             console.log(JSON.stringify(this.ticketInformation));
             createTicket({inputMap : this.ticketInformation})
             .then(result=>{
                  console.log('result',result);
+                 if(result.isSuccess){
+                    this.dispatchEvent(
+                        new ShowToastEvent({
+                        title: 'Success!',
+                        message: result.message,
+                        variant: 'success',
+                        mode: 'dismissable'
+                    }));
+                }else{
+                    this.dispatchEvent(
+                        new ShowToastEvent({
+                        title: 'Error!',
+                        message: result.errorMessage,
+                        variant: 'error',
+                        mode: 'dismissable'
+                    }));
+                }    
             })
             .catch(error=>{
                 console.log('Error',error);
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                    title: 'Error!',
+                    message: JSON.stringify(error),
+                    variant: 'error',
+                    mode: 'dismissable'
+                }));
             })
             .finally(()=>{
-
+                this.isLoading = false;
             })
             // Proceed with Apex call or navigation
         } else {

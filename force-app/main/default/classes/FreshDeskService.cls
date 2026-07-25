@@ -1,6 +1,6 @@
 public with sharing class FreshDeskService {
     public static String ENDPOINT = 'https://aphadke.freshdesk.com';
-    public static void createTicket(Map<String,Object> valueMap){
+    public static HttpResponseWrapper createTicket(Map<String,Object> valueMap){
         String header = System.Label.FreshDeskAPIKey+':'+'X';
         String authHeader = EncodingUtil.base64Encode(Blob.valueOf(header));
         HttpRequest httpreq = new HttpRequest();
@@ -26,6 +26,7 @@ public with sharing class FreshDeskService {
             } '''.template(valueMap);
         httpreq.setBody(requestBody);
         Http http = new Http();
+        HttpResponseWrapper wrapper = new HttpResponseWrapper();
         try{
             HttpResponse httpresp = http.send(httpreq);
             System.debug('FreshDesk Response: '+httpresp.getBody());
@@ -33,13 +34,25 @@ public with sharing class FreshDeskService {
             System.debug('Status Code: '+httpresp.getStatusCode());
             if(httpresp.getStatusCode() == 201 || httpresp.getStatusCode() == 200){
                 System.debug('Ticket created successfully.');
+                wrapper.isSuccess = true;     
+                wrapper.message = 'Ticket has been created Successfuly';
             }else{
                 System.debug('Failed to create ticket.');
+                wrapper.isSuccess = false;
+                wrapper.stautsCode = httpresp.getStatusCode();
+                wrapper.errorMessage = 'Error while creating ticket';
             }
         }catch(System.CalloutException ce){
             System.debug('CalloutException in FreshDeskService.createTicket: ' + ce.getMessage());
+            wrapper.isSuccess = false;
+            wrapper.stautsCode = 400;
+            wrapper.errorMessage = 'Error'+ ce.getCause();
         }catch(System.Exception e){
             System.debug('Exception in FreshDeskService.createTicket: ' + e.getMessage());
+            wrapper.isSuccess = false;
+            wrapper.stautsCode = 400;
+            wrapper.errorMessage = 'Error'+ e.getCause();
         }
+        return wrapper;
     }
 }

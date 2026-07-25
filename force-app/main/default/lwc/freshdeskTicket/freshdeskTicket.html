@@ -1,5 +1,9 @@
 <template>
     <lightning-card title="Create Freshdesk Ticket" icon-name="standard:case">
+      <lightning-spinner 
+        alternative-text="Creating Ticket in Freshdesk" 
+        size="xx-small"
+        variant="brand" lwc:if={isLoading}></lightning-spinner>
         <div class="slds-p-around_medium">
             <lightning-input type="text" name= "ContactName" label="Contact Name" variant="standard" required onchange={handleInputChange}></lightning-input>
             <lightning-input type="email" name= "Contactemail" label="Contact Email" variant="standard"  required onchange={handleInputChange}></lightning-input>

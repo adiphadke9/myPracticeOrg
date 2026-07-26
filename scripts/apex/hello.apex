@@ -39,4 +39,5 @@ System.debug(accounts.size());            // 3
 System.debug(accounts[0].Name);          // Acme Corp
 System.debug(accounts[1].Industry);      // Manufacturing
 System.debug(accounts[2].AnnualRevenue); // 3500000*/
-FreshDeskService.createTicket();
+//FreshDeskService.createTicket();
+FreshDeskService.listallContacts();

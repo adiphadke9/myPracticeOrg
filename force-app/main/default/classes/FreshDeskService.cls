@@ -55,4 +55,47 @@ public with sharing class FreshDeskService {
         }
         return wrapper;
     }
+
+    public static void listallContacts(){
+        String header = System.Label.FreshDeskAPIKey+':'+'X';
+        String authHeader = EncodingUtil.base64Encode(Blob.valueOf(header));
+        HttpRequest httpreq = new HttpRequest();
+        httpreq.setEndpoint(ENDPOINT+'/api/v2/contacts');
+        httpreq.setHeader('Authorization', 'Basic '+authHeader);
+        httpreq.setHeader('Content-Type', 'application/json');
+        httpreq.setMethod('GET');
+        Http http = new Http();
+         try{
+            HttpResponse httpresp = http.send(httpreq);
+            System.debug('FreshDesk Response: '+httpresp.getBody());
+            System.debug('Status: '+httpresp.getStatus());
+            System.debug('Status Code: '+httpresp.getStatusCode());
+            if(httpresp.getStatusCode() == 201 || httpresp.getStatusCode() == 200){
+                List<FreshDeskContactWrapper> listcontacts = (List<FreshDeskContactWrapper>) System.JSON.deserialize(httpresp.getBody(), List<FreshDeskContactWrapper>.class);
+                List<Contact> contactList = new List<Contact>();
+                for (FreshDeskContactWrapper con : listcontacts) {
+                    String lastName = con.last_name ?? con.first_name;
+                    if (String.isBlank(lastName)) {
+                        lastName = 'No Last Name';
+                    }
+                    Contact contactRec = new Contact(
+                        LastName = lastName,
+                        FirstName = con.first_name,
+                        Phone = con.phone,
+                        Email = con.email,
+                        Title = con.job_title,
+                        Freshdesk_Id__c = con.id
+                    );
+                    contactList.add(contactRec);
+                }
+                upsert contactList Freshdesk_Id__c;
+            }else{
+                
+            }
+        }catch(System.CalloutException ce){
+            System.debug('CalloutException in FreshDeskService.createTicket: ' + ce.getMessage());
+        }catch(System.Exception e){
+            System.debug('Exception in FreshDeskService.createTicket: ' + e.getMessage());
+        }
+    }
 }

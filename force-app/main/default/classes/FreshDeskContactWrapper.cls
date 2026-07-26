@@ -1,0 +1,21 @@
+public class FreshDeskContactWrapper{
+    public boolean active;
+    public String description;
+    public String email;
+    public String id;
+    public String job_title;
+    public String language;
+    public String mobile;
+    public String name;
+    public String phone;
+    public String time_zone;
+    public String preferred_source;
+    public String contact_type;
+    public String company_id;
+    public String unique_external_id;
+    public String first_name;
+    public String last_name;
+    public String visitor_id;
+    public String org_contact_id;
+    public String org_contact_id_str;
+}

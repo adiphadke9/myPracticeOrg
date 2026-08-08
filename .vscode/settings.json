@@ -45,5 +45,6 @@
   "xml.preferences.showSchemaDocumentationType": "none",
   "salesforcedx-vscode-apex.java.home": "C:\\Program Files\\Zulu\\zulu-17",
   "salesforce.einsteinForDevelopers.enableAutoUpdateSkills": true,
-  "salesforce.agentforceVibesAutocomplete.enableAutocompletionsSleepModeMonitoring": true
+  "salesforce.agentforceVibesAutocomplete.enableAutocompletionsSleepModeMonitoring": true,
+  "salesforcedx-vscode-apex-testing.restore-previous-results": false
 }

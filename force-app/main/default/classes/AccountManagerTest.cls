@@ -39,6 +39,8 @@ public with sharing class AccountManagerTest {
         }''';
         req.requestBody = Blob.valueOf(requestBody);
         RestContext.request = req;
+        RestResponse res = new RestResponse();
+        RestContext.response = res;
         Test.startTest();
         AccountManager.createAccount();
         Test.stopTest();
@@ -51,6 +53,28 @@ public with sharing class AccountManagerTest {
         RestContext.request = req;
         Test.startTest();
         AccountManager.createAccount();
+        Test.stopTest();
+    }
+
+    @isTest
+    public static void updateAccountTest(){
+        Account acc = new Account(Name = 'Salesforce.com');
+        insert acc;
+        RestRequest req = new RestRequest();
+        req.addHeader('X-API-KEY', 'api_key_uuu678');
+        req.addParameter('FirstName', 'Amit Singh');
+        String requestBody = '''
+            {
+                "Name":"PantherSchools.com",
+                "Rating":"Hot",
+                "Industry":"Education",
+                "AnnualRevenue":88999.33
+            }''';
+        req.requestBody = Blob.valueOf(requestBody);
+        req.requestURI = '/v1/AccountManager/' + acc.Id;
+        RestContext.request = req;
+        Test.startTest();
+        Account accRecord = AccountManager.updateAccount();
         Test.stopTest();
     }
 }

@@ -2,7 +2,7 @@ public with sharing class MetadataUtils {
     public static MetadataService.MetadataPort createService(){
         MetadataService.MetadataPort service = new MetadataService.MetadataPort();
         service.SessionHeader = new MetadataService.SessionHeader_element();
-        service.SessionHeader.sessionId = getSessionId();
+        service.SessionHeader.sessionId = Test.isRunningTest() == true? UserInfo.getSessionId(): getSessionId();
         return service;
     }
 

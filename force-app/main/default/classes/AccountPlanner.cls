@@ -3,11 +3,16 @@ global with sharing class AccountPlanner {
         return 'Hello, ' + name + '!';
     }
 
-    webservice static String createAccount(String name,String industry){
+    webservice static String createAccount(InputWrapper input){
         Account acc = new Account();
-        acc.Name = name;
-        acc.Industry= industry;
+        acc.Name = input.name;
+        acc.Industry= input.industry;
         insert acc;
         return acc.Id;
+    }
+
+    global class InputWrapper{
+        webservice String name;
+        webservice String industry;
     }
 }

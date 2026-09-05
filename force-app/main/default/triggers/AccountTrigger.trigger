@@ -1,4 +1,19 @@
-trigger AccountTrigger on Account (before insert, before update, before delete, after insert, after update, after delete,  after undelete) {
+trigger AccountTrigger on Account (after insert, after update) {
+    if (Trigger.isAfter) {
+        if(Trigger.isInsert && !System.isBatch() && !System.isFuture() && !System.isQueueable()){
+            Account acc = Trigger.new.get(0);
+            if (acc.SyncwithS3__c == true && String.isBlank(acc.S3BucketName__c)) {
+                AccountTriggerHandler.createBucket(new List<Account>{acc}); 
+            }
+        }
+        if(Trigger.isUpdate && !System.isBatch() && !System.isFuture() && !System.isQueueable()){
+            Account acc = Trigger.new.get(0);
+            Account oldRecord = Trigger.oldMap.get(acc.Id);
+            if (acc.SyncwithS3__c!=oldRecord.SyncwithS3__c && acc.SyncwithS3__c == true && String.isBlank(acc.S3BucketName__c)) {
+               AccountTriggerHandler.createBucket(new List<Account>{acc}); 
+            }
+        }
+    }
     /*if (Trigger.isBefore && Trigger.isInsert) {
         AccountTriggerHandler.CreateAccounts(Trigger.New);
     }*/

@@ -3,6 +3,10 @@
     {
       "path": "force-app",
       "default": true
+    },
+    {
+      "path": "project/aws",
+      "default": false
     }
   ],
   "name": "myPracticeOrg",

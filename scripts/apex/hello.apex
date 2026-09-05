@@ -5,7 +5,8 @@
 // You can also execute the entire file by running the command:
 //     SFDX: Execute Anonymous Apex with Editor Contents
 
-Id jobId = Database.executeBatch(new PostGridAddressVerificationBatch());
+AWSS3Manager.createBucket('BlueWave Technologies', '001dM000046c1K9QAI', 'eu-north-1');
+//Id jobId = Database.executeBatch(new PostGridAddressVerificationBatch());
 //PostGridAddressVerification.verifyStructuredAddresses('1980 Sheila Lane','','Reno','Nevada','89501','us','Amit Singh');
 /*SAP_Account__e event = (SAP_Account__e) SAP_Account__e.sObjectType.newSObject(null, true);
 System.debug('EventUUID'+event.EventUuid);

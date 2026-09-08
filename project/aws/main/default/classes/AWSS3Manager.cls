@@ -60,4 +60,72 @@ public with sharing class AWSS3Manager {
             System.debug(''+ex.getMessage());
         }
     }
+
+    public static void uploadFile(String recordId, String endPoint){
+        ContentVersion version = [SELECT Id, Title, FileExtension, VersionNumber, FileType, VersionData FROM ContentVersion 
+        WHERE Id = :recordId];
+        
+        HttpRequest httpreq = new HttpRequest();
+        httpreq.setMethod('PUT');
+        String filename = version.Title+'.'+version.FileExtension;
+        httpreq.setEndpoint('callout:AWSS3Cred'+'/'+endPoint+'/'+filename);
+        httpreq.setBodyAsBlob(version.VersionData);
+        try {
+            HttpResponse httpresp = (new Http()).send(httpreq);
+            if (httpresp.getStatusCode() == 200 || httpresp.getStatusCode() == 201) {
+
+            }else {
+                System.debug('Failed: ' + httpresp.getBody());
+            }
+        } catch (System.Exception ex) {
+            System.debug(''+ex.getMessage());
+        }
+    }
+
+    public static void listBucketItems(String endpoints){
+        HttpRequest httpreq = new HttpRequest();
+        httpreq.setMethod('GET');
+        httpreq.setEndpoint('callout:AWSS3Cred'+'/'+endpoints+'/');
+        try {
+            HttpResponse httpresp = (new Http()).send(httpreq);
+            String ns = 'http://s3.amazonaws.com/doc/2006-03-01/';
+            if (httpresp.getStatusCode() == 200 || httpresp.getStatusCode() == 201) {
+               System.debug('Result: ' + httpresp.getBody());
+               Dom.Document doc = httpresp.getBodyDocument();
+               Dom.XmlNode rootNode = doc.getRootElement();
+               Dom.XmlNode nameNode = rootNode.getChildElement('Name', ns);
+               String bucketName = '';
+               if (nameNode!=null) {
+                bucketName = nameNode.getText();
+                System.debug('bucketName: '+bucketName);
+               }
+               ListBucketResult itemWrapper = new ListBucketResult();
+               itemWrapper.name = bucketName;
+               itemWrapper.items = new List<ListBucketResult.Contents>();
+               for (Dom.XmlNode root: rootNode.getChildElements()) {
+                 if (root.getName() == 'Contents') {
+                    ListBucketResult.Contents item = new ListBucketResult.Contents();
+                    for (Dom.XmlNode contentNode: root.getChildElements()) {
+                        String nodeName = contentNode.getName();
+                        String nodeValue = contentNode.getText();
+                        switch on nodeName {
+                            when 'Key'  {
+                               item.key = nodeValue;
+                            }
+                            when 'Size'  {
+                                item.size = nodeValue;
+                            }
+                        }
+                    }
+                    itemWrapper.items.add(item);
+                 }              
+               }
+               System.debug('Wrapper: '+itemWrapper);
+            }else {
+                System.debug('Failed: ' + httpresp.getBody());
+            }
+        } catch (System.Exception ex) {
+            System.debug(''+ex.getMessage());
+        }
+    }
 }

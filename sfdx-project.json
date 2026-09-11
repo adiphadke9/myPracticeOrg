@@ -7,6 +7,10 @@
     {
       "path": "project/aws",
       "default": false
+    },
+    {
+      "path": "project/Dropbox",
+      "default": false
     }
   ],
   "name": "myPracticeOrg",

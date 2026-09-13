@@ -1,9 +1,9 @@
 public with sharing class Dropbox {
 
     public static void testUploadFile(){
-        Id fileId = '0687F00000q1AXyQAM';
+        Id fileId = '0687F00000q0ndtQAA';
         ContentVersion cv = [
-            SELECT Id, Title, FileExtension, VersionData, ContentSize, PathOnClient
+            SELECT Id, Title, ContentDocumentId, FileExtension, VersionData, ContentSize, PathOnClient
             FROM ContentVersion
             WHERE Id = :fileId
             LIMIT 1
@@ -17,10 +17,20 @@ public with sharing class Dropbox {
 
         // Get the file content as Blob
         Blob fileContent = cv.VersionData;
-        uploadFile(fileContent, fileName, '/Salesforce/');
+        DropboxFile file = uploadFile(fileContent, fileName, '/Salesforce/');
+        if(!String.isBlank(file.id)){
+            DropboxFile__c dropboxfile = new DropboxFile__c();
+            dropboxfile.Name = fileName;
+            dropboxfile.Dropbox_Path__c = file.path;
+            dropboxfile.File_Size__c = file.size;
+            //dropboxfile.RecordId__c = file.recordId;
+            dropboxfile.Content_Document_Id__c = cv.ContentDocumentId;
+            dropboxfile.ServerUrl__c = 'https://www.droropbox.com/home'+file.path;
+            insert as system dropboxfile;
+        }
     }
 
-    public static void uploadFile(Blob fileContent, String fileName, String filePath){
+    public static DropboxFile uploadFile(Blob fileContent, String fileName, String filePath){
         HttpRequest httpreq = new HttpRequest();
         httpreq.setEndpoint('callout:DropBoxContent'+'/2/files/upload');
         httpreq.setMethod('POST');
@@ -46,11 +56,16 @@ public with sharing class Dropbox {
         };
         httpreq.setHeader('Dropbox-API-Arg', JSON.serialize(argumentMap));
         httpreq.setBodyAsBlob(fileContent);
+        DropboxFile file = new DropboxFile();
         try {
             HttpResponse httpresp = (new Http()).send(httpreq);
             if (httpresp.getStatusCode() == 200 || httpresp.getStatusCode() == 201) {
                 System.debug('File uploaded successfully: ' + httpresp.getBody());
-            }else{
+                Map<String, Object> responseMap = (Map<String, Object>) JSON.deserializeUntyped(httpresp.getBody());
+                file.id = (String)responseMap.get('id');
+                file.name = (String)responseMap.get('name');
+                file.path = (String)responseMap.get('path_display');
+                file.size = (responseMap.containsKey('size') ? (Integer)responseMap.get('size') : null);
                 System.debug('Upload failed: ' + httpresp.getBody());
             }
         } catch (System.CalloutException ex) {
@@ -58,5 +73,6 @@ public with sharing class Dropbox {
         }catch (System.Exception e) {
             System.debug('Exception error: ' + e.getMessage());
         }
+        return file;
     }
 }

@@ -75,4 +75,45 @@ public with sharing class Dropbox {
         }
         return file;
     }
+
+    public static List<DropboxFile> listFolder(String filePath, Integer limitx){
+        HttpRequest httpreq = new HttpRequest();
+        httpreq.setEndpoint('callout:DropboxAPI'+'/2/files/list_folder');
+        httpreq.setMethod('POST');
+        httpreq.setHeader('Content-Type', 'application/json');
+        //{"path":"","recursive":false,"include_media_info":true,"include_mounted_folders":true,"limit":20}
+        Map<String, Object> argumentMap = new Map<String, Object>{
+            'path' => filePath,
+            'recursive' => false,
+            'include_media_info' => true,
+            'include_mounted_folders' => true,
+            'limit' => limitx
+        };
+        httpreq.setBody(JSON.serialize(argumentMap));
+        List<DropboxFile> files = new List<DropboxFile>();
+        try {
+            HttpResponse httpresp = (new Http()).send(httpreq);
+            if (httpresp.getStatusCode() == 200 || httpresp.getStatusCode() == 201) {
+                System.debug('File uploaded successfully: ' + httpresp.getBody());
+                Map<String, Object> responseMap = (Map<String, Object>) JSON.deserializeUntyped(httpresp.getBody());
+                List<Object> entries = (List<Object>)responseMap.get('entries');
+                for (Object entry : entries) {
+                    Map<String, Object> entryMap = (Map<String, Object>)entry;
+                    DropboxFile file = new DropboxFile();
+                    file.id = (String)entryMap.get('id');
+                    file.name = (String)entryMap.get('name');
+                    file.path = (String)entryMap.get('path_display');
+                    file.size = (entryMap.containsKey('size') ? (Integer)entryMap.get('size') : null);
+                    file.isFolder = (entryMap.containsKey('.tag') && (String)entryMap.get('.tag') == 'folder');
+                    file.modifiedTime = (String)entryMap.get('server_modified');
+                    files.add(file);
+                }
+            }
+        } catch (System.CalloutException ex) {
+            System.debug('Callout error: ' + ex.getMessage());
+        }catch (System.Exception e) {
+            System.debug('Exception error: ' + e.getMessage());
+        }
+        return files;
+    }
 }

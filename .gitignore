@@ -53,3 +53,5 @@ $RECYCLE.BIN/
 salesforce.schema
 Referenced Packages
 
+# Flows are maintained in a separate Git repository
+force-app/main/default/flows/

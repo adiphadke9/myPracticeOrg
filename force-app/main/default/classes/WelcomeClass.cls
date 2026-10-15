@@ -1,7 +1,8 @@
 public with sharing class WelcomeClass {
     @InvocableMethod(label='Welcome Message' 
                      description='This method will return Welcome Message to Salesforce Org'
-                     category='pantherschools')
+                     category='pantherschools'
+                     iconName='slds:custom:custom80')
     public static List<String> welcomemessage(List<String> inputs){
         //If you want to return String retrun type will be List<String>.
         //If you want to return a sObject, return type will be List<List<sObject>>.

@@ -2,7 +2,7 @@
 global class StripeWebhookListner {
     private static final String SIGNATURE_HEADER = '';
     private static final String ALGORITHM = 'HmacSHA256';
-    private static final String webhookSecret = System.Label.webhookSecret;
+    private static final String webhookSecret = 'whsec_JMFTqXDj3kfqJVbkR6yYEG4ymLYqVARw';
 
     @HttpPost
     global static void handleStripeWebhook() {

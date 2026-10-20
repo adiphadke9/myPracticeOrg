@@ -63,8 +63,6 @@ public with sharing class SalesforceTokenController {
                     fieldWithValuesMap.put('clientid__c', config.clientid__c);
                     fieldWithValuesMap.put('clientsecret__c', config.clientsecret__c);
                     CreateUpdateMetadataUtils.createUpdateMetadata(fullName, label, fieldWithValuesMap);
-                    helper.Active__c = false;
-                    update helper;
                     ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.CONFIRM,'Access Token generated and saved successfully.'));
                 }else {
                     ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR,'Failed to get Access Token. Status: '+httpresp.getStatus()));
